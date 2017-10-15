@@ -15,7 +15,7 @@
 #include <lcmtypes/bot_core.h>
 #include <lcmtypes/bot_core/images_t.hpp>
 
-#include <jpeg_utils/jpeg-utils.h>
+#include <jpeg_utils/jpeg-utils.hpp>
 
 #include <multisense_image_utils/multisense_image_utils.hpp>
 

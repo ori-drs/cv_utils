@@ -1,10 +1,6 @@
 #ifndef _jpeg_utils_h_
 #define _jpeg_utils_h_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <stdint.h>
 
 /**
@@ -66,10 +62,6 @@ jpeg_compress_8u_bgra (const uint8_t * src, int width, int height, int stride,
 int 
 pixel_convert_8u_rgb_to_8u_gray (uint8_t *dest, int dstride, int width,
         int height, const uint8_t *src, int sstride);
-
-#ifdef __cplusplus
-}
-#endif
 
 
 #endif

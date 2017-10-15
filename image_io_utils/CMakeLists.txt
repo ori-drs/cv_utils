@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 # needed for string arrays
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wno-deprecated-declarations")
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 if (NOT COMMAND pods_use_pkg_config_packages)
   include(cmake/pods.cmake)

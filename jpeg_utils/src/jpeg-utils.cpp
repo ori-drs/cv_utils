@@ -4,7 +4,7 @@
 #include <jpeglib.h>
 #include <jerror.h>
 
-#include "jpeg_utils/jpeg-utils.h"
+#include "jpeg_utils/jpeg-utils.hpp"
 
 static void
 init_source (j_decompress_ptr cinfo)

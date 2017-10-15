@@ -1,14 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
-# needed for string arrays
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wno-deprecated-declarations")
 
 if (NOT COMMAND pods_use_pkg_config_packages)
   include(cmake/pods.cmake)
 endif()
-
-#pkg_search_module (GLIB2   glib-2.0)
-
-
 project(multisense_glview)
 
 find_package(catkin REQUIRED COMPONENTS
@@ -16,20 +10,11 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 catkin_package(
-#  INCLUDE_DIRS
-#    include
-  CATKIN_DEPENDS 
-#  DEPENDS system_lib
 )
 
 ###########
 ## Build ##
 ###########
-
-set(TARGETS
-    multisense_glview
-)
-
 
 include_directories(
 #  include
@@ -41,14 +26,14 @@ include_directories(
 ## Declare a cpp executable
 add_executable(
   multisense_glview
-  src/main.c
+  src/main.cpp
 )
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   multisense_glview
   ${catkin_LIBRARIES}
-  glib-2.0 glut GL m jpeg_utils png z
+  GL png z glut
 )
 
 

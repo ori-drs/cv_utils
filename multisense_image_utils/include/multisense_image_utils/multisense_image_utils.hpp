@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <typeinfo>
+
 
 #include <opencv2/opencv.hpp>
 //#include <opencv2/highgui/highgui.hpp>

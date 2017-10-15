@@ -5,7 +5,7 @@
 #include <vector>
 #include <algorithm>
 
-#include <jpeg_utils/jpeg-utils.h>
+#include <jpeg_utils/jpeg-utils.hpp>
 #include <lcm/lcm-cpp.hpp>
 #include <lcmtypes/bot_core/image_t.hpp>
 #include <boost/shared_ptr.hpp>

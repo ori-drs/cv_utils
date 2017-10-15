@@ -26,7 +26,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-#include "jpeg_utils/jpeg-utils-ijg.h"
+#include "jpeg_utils/jpeg-utils-ijg.hpp"
 
 #define DEPTH_VAL 8192
 
@@ -445,10 +445,10 @@ int main(int argc, char **argv)
 
   int npixels = width*height;
 
-  depth_img_data = malloc(npixels*3);
-  depth_uncompress_buffer = malloc(npixels*sizeof(uint16_t));
-  left_img_data = malloc(npixels*3);
-  right_img_data = malloc(npixels*3);
+  depth_img_data = (uint8_t*) malloc(npixels*3);
+  depth_uncompress_buffer = (uint8_t*) malloc(npixels*sizeof(uint16_t));
+  left_img_data = (uint8_t*) malloc(npixels*3);
+  right_img_data = (uint8_t*) malloc(npixels*3);
   rightpane_is_depth = 0;
 
   int i;
