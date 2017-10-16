@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS
     include
+  LIBRARIES image_io_utils
   CATKIN_DEPENDS jpeg_utils
 #  DEPENDS system_lib
 )
@@ -33,7 +34,7 @@ include_directories(
 add_library(${PROJECT_NAME} src/image_io_utils.cpp)
 
 add_dependencies(${PROJECT_NAME}
-  ${catkin_EXPORTED_TARGETS} jpeg_utils
+  ${catkin_EXPORTED_TARGETS}
 )
 pods_use_pkg_config_packages(${PROJECT_NAME} lcmtypes_bot2-core)
 
