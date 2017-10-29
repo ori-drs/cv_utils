@@ -14,9 +14,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES multisense_utils
-#  CATKIN_DEPENDS cv_bridge jpeg_utils multisense_image_utils pcl_ros
+  INCLUDE_DIRS include
+  LIBRARIES multisense_utils
+  CATKIN_DEPENDS cv_bridge jpeg_utils multisense_image_utils pcl_ros
 #  DEPENDS system_lib
 )
 
@@ -43,3 +43,17 @@ target_link_libraries(test-multisense-image-filtering
 )
 
 
+
+###########
+# Install #
+###########
+install(TARGETS multisense_utils
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
+
+
+
+install(DIRECTORY include/multisense_utils/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+        PATTERN ".svn" EXCLUDE)
