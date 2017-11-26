@@ -9,7 +9,7 @@ endif()
 project(image_io_utils)
 
 find_package(catkin REQUIRED COMPONENTS
-  jpeg_utils
+  jpeg_utils bot_core_lcmtypes
 )
 
 catkin_package(
