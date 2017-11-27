@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(multisense_utils)
 
-if (NOT COMMAND pods_use_pkg_config_packages)
-  include(cmake/pods.cmake)
-endif()
+#if (NOT COMMAND pods_use_pkg_config_packages)
+#  include(cmake/pods.cmake)
+#endif()
 
 add_compile_options(-std=c++11)
 
@@ -13,6 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
   multisense_image_utils
   pcl_ros
   bot_core_lcmtypes
+  path_util
+  concise_args
 )
 
 catkin_package(
@@ -42,7 +44,7 @@ add_dependencies(test-multisense-image-filtering ${${PROJECT_NAME}_EXPORTED_TARG
 target_link_libraries(test-multisense-image-filtering
   ${catkin_LIBRARIES}
 )
-pods_use_pkg_config_packages(test-multisense-image-filtering path-util)
+#pods_use_pkg_config_packages(test-multisense-image-filtering path-util)
 
 
 

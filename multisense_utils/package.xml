@@ -16,12 +16,16 @@
   <build_depend>multisense_image_utils</build_depend>
   <build_depend>pcl_ros</build_depend>
   <build_depend>bot_core_lcmtypes</build_depend>
+  <build_depend>path_util</build_depend>
+  <build_depend>concise_args</build_depend>
 
   <run_depend>cv_bridge</run_depend>
   <run_depend>jpeg_utils</run_depend>
   <run_depend>multisense_image_utils</run_depend>
   <run_depend>pcl_ros</run_depend>
   <run_depend>bot_core_lcmtypes</run_depend>
+  <run_depend>path_util</run_depend>
+  <run_depend>concise_args</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

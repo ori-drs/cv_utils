@@ -36,7 +36,6 @@ add_library(${PROJECT_NAME} src/image_io_utils.cpp)
 add_dependencies(${PROJECT_NAME}
   ${catkin_EXPORTED_TARGETS}
 )
-pods_use_pkg_config_packages(${PROJECT_NAME} lcmtypes_bot2-core)
 
 
 #############
