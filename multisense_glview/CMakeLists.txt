@@ -1,12 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 
-if (NOT COMMAND pods_use_pkg_config_packages)
-  include(cmake/pods.cmake)
-endif()
 project(multisense_glview)
 
 find_package(catkin REQUIRED COMPONENTS
-  jpeg_utils
+  jpeg_utils bot_core_lcmtypes
 )
 
 catkin_package(
@@ -35,11 +32,6 @@ target_link_libraries(
   ${catkin_LIBRARIES}
   GL png z glut
 )
-
-
-pods_use_pkg_config_packages(
-  multisense_glview lcmtypes_bot2-core
-  )
 
 #############
 ## Install ##

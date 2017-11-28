@@ -9,7 +9,7 @@ endif()
 project(image_io_utils)
 
 find_package(catkin REQUIRED COMPONENTS
-  jpeg_utils
+  jpeg_utils bot_core_lcmtypes
 )
 
 catkin_package(
@@ -36,7 +36,6 @@ add_library(${PROJECT_NAME} src/image_io_utils.cpp)
 add_dependencies(${PROJECT_NAME}
   ${catkin_EXPORTED_TARGETS}
 )
-pods_use_pkg_config_packages(${PROJECT_NAME} lcmtypes_bot2-core)
 
 
 #############

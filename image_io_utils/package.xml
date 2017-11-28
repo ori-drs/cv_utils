@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package format="2">
+<package>
   <name>image_io_utils</name>
   <version>0.0.0</version>
 
@@ -12,8 +12,11 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roslint</build_depend>
+  <build_depend>bot_core_lcmtypes</build_depend>
+  <build_depend>jpeg_utils</build_depend>
 
-  <depend>jpeg_utils</depend>
+  <run_depend>jpeg_utils</run_depend>
+  <run_depend>bot_core_lcmtypes</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export />
