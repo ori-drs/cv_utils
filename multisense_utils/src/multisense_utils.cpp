@@ -89,7 +89,7 @@ void multisense_utils::unpack_multisense(const uint8_t* depth_data, const uint8_
       }
     }
   }else{
-    uint16_t* depths = (uint16_t*) depth_data;
+    float* depths = (float*) depth_data;
 
     // Recover focal lengths from repro_matrix - this assumes fx=fy
     // and the reprojection formula. Yuck!
@@ -107,7 +107,7 @@ void multisense_utils::unpack_multisense(const uint8_t* depth_data, const uint8_
       for(int u=0; u<w; u=u+decimate_ ) {  //l2r
 
           int pixel = v*w +u;
-          float z = (float) depths[pixel] /1000.0;
+          float z = (float) depths[pixel];
 
           cloud->points[j2].x =( z * (u  - cx))/ fx ;
           cloud->points[j2].y =( z * (v  - cy))/ fy ;
@@ -193,13 +193,13 @@ void multisense_utils::unpack_multisense(const bot_core::images_t *msg, cv::Mat_
   if (msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY_ZIPPED ) {
     unsigned long dlen = msg->images[0].width*msg->images[0].height*2 ;//msg->depth.uncompressed_size;
     uncompress(depth_buf_ , &dlen, msg->images[1].data.data(), msg->images[1].size);
-
-
-
-
     is_disparity=true;
+  }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM ) {
+    unsigned long dlen = msg->images[0].width*msg->images[0].height*4 ;//msg->depth.uncompressed_size;
+    memcpy(depth_buf_, msg->images[1].data.data(), msg->images[1].size);
+    is_disparity=false;
   }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM_ZIPPED ) {
-    unsigned long dlen = msg->images[0].width*msg->images[0].height*2 ;//msg->depth.uncompressed_size;
+    unsigned long dlen = msg->images[0].width*msg->images[0].height*4 ;//msg->depth.uncompressed_size;
     uncompress(depth_buf_ , &dlen, msg->images[1].data.data(), msg->images[1].size);
     is_disparity=false;
   } else{
