@@ -208,29 +208,43 @@ on_frame(const lcm_recv_buf_t* lcm, const char* channel, const bot_core_images_t
       printf("Second Image Format Not Understood\n");
     }
 
-  }else if ( (msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY || msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY_ZIPPED) ||
-             (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM  || msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM_ZIPPED) ){
+  }else if ( (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_M || msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_M_ZIPPED) ||
+             ( (msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY || msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY_ZIPPED) ||
+               (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM  || msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM_ZIPPED) )){
     rightpane_is_depth = 1;
 
     int i;
     const uint16_t* depth = NULL;
+    const short* depth_short = NULL;
     const float* depth_float = NULL;
     int scaling=2;
     bool disparity_values = false;
+    bool depth_m_values = false;
+    bool depth_mm_values = false;
     if(msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY) {
       depth = (uint16_t*) msg->images[1].data;
       disparity_values = true;
     }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY_ZIPPED ) {
-      unsigned long dlen = width*height*2 ;//msg->depth.uncompressed_size;
+      unsigned long dlen = width*height*2;
       uncompress(uncompress_buffer, &dlen, msg->images[1].data, msg->images[1].size);
       depth = (uint16_t*) uncompress_buffer;
       disparity_values = true;
     }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM ) {
-      depth_float = (float*) msg->images[1].data;
+      depth_short = (short*) msg->images[1].data;
+      depth_mm_values = true;
     }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM_ZIPPED ) {
-      unsigned long dlen = width*height*4 ;//msg->depth.uncompressed_size;
+      unsigned long dlen = width*height*2;
+      uncompress(uncompress_buffer, &dlen, msg->images[1].data, msg->images[1].size);
+      depth_short = (short*) uncompress_buffer;
+      depth_mm_values = true;
+    }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_M ) {
+      depth_float = (float*) msg->images[1].data;
+      depth_m_values = true;
+    }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_M_ZIPPED ) {
+      unsigned long dlen = width*height*4;
       uncompress(uncompress_buffer, &dlen, msg->images[1].data, msg->images[1].size);
       depth_float = (float*) uncompress_buffer;
+      depth_m_values = true;
     }else{
       printf("Second Image Format Not Understood [B]\n");
     }
@@ -248,11 +262,17 @@ on_frame(const lcm_recv_buf_t* lcm, const char* channel, const bot_core_images_t
         }else{
           d=round(600000.0/ (float)depth[i]) ;
         }
-      }else{
+      }else if(depth_mm_values){
+        if (depth_short[i]==0){
+          d=0;
+        }else{
+          d=round(depth_short[i]);
+        }
+      }else if(depth_m_values){
         if (depth_float[i]==0){
           d=0;
         }else{
-          d= round((float)2000*depth_float[i]);
+          d=round((float)2000*depth_float[i]);
         }
       }
 

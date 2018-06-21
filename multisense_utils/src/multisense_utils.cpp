@@ -25,9 +25,9 @@ multisense_utils::multisense_utils (){
 }
 
 void multisense_utils::unpack_multisense(const uint8_t* depth_data, const uint8_t* color_data, int h, int w, cv::Mat_<double> repro_matrix,
-                                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr &cloud, bool is_rgb, bool is_disparity){
+                                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr &cloud, bool is_rgb, int depth_type){
 
-  if (is_disparity){
+  if (depth_type==0){
 
     // Convert Carnegie disparity format into floating point disparity. Store in local buffer
     Mat disparity_orig_temp = Mat::zeros(h,w,CV_16UC1); // h,w
@@ -89,7 +89,9 @@ void multisense_utils::unpack_multisense(const uint8_t* depth_data, const uint8_
       }
     }
   }else{
-    float* depths = (float*) depth_data;
+    short* depths_short = (short*) depth_data; // m case
+    float* depths_float = (float*) depth_data; // mm case
+
 
     // Recover focal lengths from repro_matrix - this assumes fx=fy
     // and the reprojection formula. Yuck!
@@ -107,7 +109,11 @@ void multisense_utils::unpack_multisense(const uint8_t* depth_data, const uint8_
       for(int u=0; u<w; u=u+decimate_ ) {  //l2r
 
           int pixel = v*w +u;
-          float z = (float) depths[pixel];
+          float z = 0;
+          if (depth_type==1) // mm
+            z = (float) depths_short[pixel]/1000.0;
+          else // depth type 2 - m
+            z = (float) depths_float[pixel];
 
           cloud->points[j2].x =( z * (u  - cx))/ fx ;
           cloud->points[j2].y =( z * (v  - cy))/ fy ;
@@ -188,27 +194,34 @@ void multisense_utils::unpack_multisense(const bot_core::images_t *msg, cv::Mat_
     return;
   }
   
-  // TODO: support non-zipped modes (as in the renderer)
-  bool is_disparity=true;
+  // TODO: support non-zipped disparity modes (as in the renderer)
+  // TODO: use enums instead of ints
+  int depth_type=0; // 0 disparity. 1 millimeters. 1 metres
   if (msg->image_types[1] == BOT_CORE_IMAGES_T_DISPARITY_ZIPPED ) {
     unsigned long dlen = msg->images[0].width*msg->images[0].height*2 ;//msg->depth.uncompressed_size;
     uncompress(depth_buf_ , &dlen, msg->images[1].data.data(), msg->images[1].size);
-    is_disparity=true;
+    depth_type=0;
   }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM ) {
+    unsigned long dlen = msg->images[0].width*msg->images[0].height*2 ;//msg->depth.uncompressed_size;
+    memcpy(depth_buf_, msg->images[1].data.data(), msg->images[1].size);
+    depth_type=1;
+  }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM_ZIPPED ) {
+    unsigned long dlen = msg->images[0].width*msg->images[0].height*2 ;//msg->depth.uncompressed_size;
+    uncompress(depth_buf_ , &dlen, msg->images[1].data.data(), msg->images[1].size);
+    depth_type=1;
+  }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_M ) {
     unsigned long dlen = msg->images[0].width*msg->images[0].height*4 ;//msg->depth.uncompressed_size;
     memcpy(depth_buf_, msg->images[1].data.data(), msg->images[1].size);
-    is_disparity=false;
-  }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_MM_ZIPPED ) {
+    depth_type=2;
+  }else if (msg->image_types[1] == BOT_CORE_IMAGES_T_DEPTH_M_ZIPPED ) {
     unsigned long dlen = msg->images[0].width*msg->images[0].height*4 ;//msg->depth.uncompressed_size;
     uncompress(depth_buf_ , &dlen, msg->images[1].data.data(), msg->images[1].size);
-    is_disparity=false;
+    depth_type=2;
   } else{
     std::cout << "WARNING: multisense_utils::unpack_multisense | depth type not understood: "<< msg->image_types[1] <<"\n";
     return;
   }
   
   unpack_multisense(depth_buf_, rgb_buf_, msg->images[0].height, msg->images[0].width, repro_matrix, 
-                                       cloud, is_rgb, is_disparity);
-  // unpack_multisense(msg->images[1].data.data(), msg->images[0].data.data(), msg->images[0].height, msg->images[0].width, repro_matrix, 
-  //                                     cloud, is_rgb);
+                                       cloud, is_rgb, depth_type);
 }
