@@ -1,0 +1,4 @@
+<launch>
+  <node name="multisense_glview" pkg="multisense_glview" type="multisense_glview_node"
+  args="-c REALSENSE_CAMERA" output="screen"/>
+</launch>
