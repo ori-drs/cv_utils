@@ -4,14 +4,39 @@ project(multisense_glview)
 
 find_package(catkin REQUIRED COMPONENTS
   jpeg_utils bot_core_lcmtypes
+  roscpp
 )
 
 catkin_package(
+  INCLUDE_DIRS
+    include
 )
 
 ###########
 ## Build ##
 ###########
+
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+)
+
+add_library(stereo_view
+  src/stereo_view/stereo_view.cpp
+)
+
+add_dependencies(stereo_view ${catkin_EXPORTED_TARGETS})
+target_link_libraries(stereo_view ${catkin_LIBRARIES}   GL png z glut)
+
+
+add_executable(stereo_view_lcm
+  src/stereo_view/stereo_view_lcm.cpp )
+target_link_libraries(stereo_view_lcm ${catkin_LIBRARIES} stereo_view)
+
+
+add_executable(stereo_view_ros
+  src/stereo_view/stereo_view_ros.cpp )
+target_link_libraries(stereo_view_ros ${catkin_LIBRARIES} stereo_view)
 
 include_directories(
 #  include
@@ -23,7 +48,7 @@ include_directories(
 ## Declare a cpp executable
 add_executable(
   multisense_glview
-  src/main.cpp
+  src/stereo_view/main.cpp
 )
 
 ## Specify libraries to link a library or executable target against
