@@ -19,8 +19,6 @@ class Pass{
     ~Pass(){
     }    
 
-    void readParamFromLaunch();
-
   private:
 
     const CommandLineConfig cl_cfg_;
