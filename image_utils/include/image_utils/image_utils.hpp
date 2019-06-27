@@ -1,5 +1,5 @@
-#ifndef MULTISENSE_IMAGE_UTILS_HPP_
-#define MULTISENSE_IMAGE_UTILS_HPP_
+#ifndef IMAGE_UTILS_HPP_
+#define IMAGE_UTILS_HPP_
 
 #include <iostream>
 #include <vector>
@@ -10,9 +10,9 @@
 //#include <opencv2/highgui/highgui.hpp>
 
 
-class multisense_image_utils {
+class image_utils {
   public:
-    multisense_image_utils (){};
+    image_utils (){};
 
     bool removeSpeckles(cv::Mat& ioImage, const double iMaxDisparityDiff,
                         const int iMaxBlobSize);
