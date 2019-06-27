@@ -1,6 +1,6 @@
-#include "multisense_image_utils/multisense_image_utils.hpp"
+#include "image_utils/image_utils.hpp"
 
-bool multisense_image_utils::
+bool image_utils::
 removeSpeckles(cv::Mat& ioImage, const double iMaxDisparityDiff,
                const int iMaxBlobSize) {
   cv::Mat img(ioImage.rows, ioImage.cols, CV_16SC1, ioImage.data);
@@ -8,7 +8,7 @@ removeSpeckles(cv::Mat& ioImage, const double iMaxDisparityDiff,
   return true;
 }
 
-bool multisense_image_utils::
+bool image_utils::
 removeSmall(cv::Mat& ioImage, const uint16_t iValueThresh,
             const int iSizeThresh) {
   const int w = ioImage.cols;
@@ -94,12 +94,12 @@ removeSmall(cv::Mat& ioImage, const uint16_t iValueThresh,
   return true;
 }
 
-float multisense_image_utils::computeIntensity(unsigned char * rgb, int row, int col, int width) {
+float image_utils::computeIntensity(unsigned char * rgb, int row, int col, int width) {
 
   return 0.2126 * rgb[3 * (row * width + col) + 0] + 0.7152 * rgb[3 * (row * width + col) + 1] + 0.0722 * rgb[3 * (row * width + col) + 2];
 }
 
-void multisense_image_utils::filterLowTexture(unsigned short * disparity, unsigned char * rgb, int width, int height, int windowSize, double threshold, bool removeHorizontalEdges) {
+void image_utils::filterLowTexture(unsigned short * disparity, unsigned char * rgb, int width, int height, int windowSize, double threshold, bool removeHorizontalEdges) {
 
   for (int i=windowSize; i<height-windowSize; i++) {
     for (int j=windowSize; j<width-windowSize; j++) {
@@ -134,7 +134,7 @@ void multisense_image_utils::filterLowTexture(unsigned short * disparity, unsign
   }
 }
 
-void multisense_image_utils::sobelEdgeFilter(unsigned short *  disparity, unsigned char * rgb, int width, int height, int windowSize, double threshold, bool removeHorizontalEdges) {
+void image_utils::sobelEdgeFilter(unsigned short *  disparity, unsigned char * rgb, int width, int height, int windowSize, double threshold, bool removeHorizontalEdges) {
 
   for (int i=windowSize; i<height-windowSize; i++) {
     for (int j=windowSize; j<width-windowSize; j++) {
