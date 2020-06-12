@@ -56,17 +56,17 @@ class Pass{
 
 
 Pass::Pass(ros::NodeHandle node_):node_(node_){
-  processed_cloud_pub_topic_ = "/realsense_d435_front/depth/color/points";
+  processed_cloud_pub_topic_ = "/depth_camera_front/depth/color/points";
 
   processed_cloud_pub_ = node_.advertise<sensor_msgs::PointCloud2>(processed_cloud_pub_topic_, 10);
 
 
-  image_topic_a_     = "/realsense_d435_front/color/image_raw";
+  image_topic_a_     = "/depth_camera_front/color/image_raw";
   image_a_transport_ = "compressed";
-  info_topic_a_      = "/realsense_d435_front/color/camera_info";
-  image_topic_b_     = "/realsense_d435_front/aligned_depth_to_color/image_raw";
+  info_topic_a_      = "/depth_camera_front/color/camera_info";
+  image_topic_b_     = "/depth_camera_front/aligned_depth_to_color/image_raw";
   image_b_transport_ = "compressedDepth";
-  info_topic_b_      = "/realsense_d435_front/aligned_depth_to_color/camera_info";
+  info_topic_b_      = "/depth_camera_front/aligned_depth_to_color/camera_info";
 
   image_a_sub_ = boost::make_shared<image_transport::SubscriberFilter>();
   image_b_sub_ = boost::make_shared<image_transport::SubscriberFilter>();
