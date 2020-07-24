@@ -1,4 +1,4 @@
-#include "image_utils/image_utils.hpp"
+#include "image_utils_drs/image_utils.hpp"
 
 bool image_utils::
 removeSpeckles(cv::Mat& ioImage, const double iMaxDisparityDiff,
