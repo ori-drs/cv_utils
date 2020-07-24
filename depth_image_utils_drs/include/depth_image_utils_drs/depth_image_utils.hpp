@@ -17,7 +17,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include <image_utils/image_utils.hpp>
+#include <image_utils_drs/image_utils.hpp>
 
 class DepthImageUtils
 {

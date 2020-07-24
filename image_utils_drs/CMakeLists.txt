@@ -1,22 +1,20 @@
 cmake_minimum_required(VERSION 2.8.3)
 
-project(depth_image_utils)
+project(image_utils_drs)
 
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
-  pcl_ros
-  image_utils
-  image_transport
+  cv_bridge
 )
+find_package(OpenCV 3.0 QUIET)
 
-find_package(PCL REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS
     include
-  LIBRARIES depth_image_utils
-  CATKIN_DEPENDS cv_bridge image_transport
+  LIBRARIES ${PROJECT_NAME}
+  CATKIN_DEPENDS cv_bridge
 #  DEPENDS system_lib
 )
 
@@ -31,20 +29,13 @@ include_directories(
 
 ######################################################
 
-add_library(${PROJECT_NAME} src/depth_image_utils.cpp)
+add_library(${PROJECT_NAME} src/image_utils.cpp)
 
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(${PROJECT_NAME}
    ${catkin_LIBRARIES} ${OpenCV_LIBS}
 )
-
-
-######################################################
-add_executable(depth_to_pointcloud_node
-  src/depth_to_pointcloud_node.cpp)
-target_link_libraries(depth_to_pointcloud_node ${catkin_LIBRARIES} ${PROJECT_NAME})
-
 
 #############
 ## Install ##
