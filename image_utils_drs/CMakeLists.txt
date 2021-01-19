@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 
 project(image_utils_drs)
 
-add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD 14)
 
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
