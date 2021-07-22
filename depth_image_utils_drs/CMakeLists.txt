@@ -44,6 +44,10 @@ add_executable(depth_to_pointcloud_node
   src/depth_to_pointcloud_node.cpp)
 target_link_libraries(depth_to_pointcloud_node ${catkin_LIBRARIES} ${PROJECT_NAME})
 
+add_executable(downsample_depth_image
+  src/downsample_depth_image.cpp)
+target_link_libraries(downsample_depth_image ${catkin_LIBRARIES} ${PROJECT_NAME})
+
 
 #############
 ## Install ##
